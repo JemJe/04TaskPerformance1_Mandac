@@ -12,6 +12,9 @@ namespace _04TaskPerformance1_Mandac
 {
     public partial class Form1 : Form
     {
+        private string[] correctWords = { "word", "next", "computer", "hello" };
+        private int currentIndex = 0;
+        private bool isCorrect = false;
         public Form1()
         {
             InitializeComponent();
@@ -19,19 +22,73 @@ namespace _04TaskPerformance1_Mandac
 
         private void guessBtn(object sender, EventArgs e)
         {
-            StringBuilder wrongGuesses = new StringBuilder(correctTxt.Text);
+            string word = answerBox.Text.Trim().ToLower();
 
-            string correctWord = "word";
-            string word = answerBox.Text;
+            if (!isCorrect)
+            {
+                if (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+                {
+                    emptyBox.Text = "Please enter a word.";
+                    emptyBox.ForeColor = Color.Red;
+                    answerBox.Clear();
+                    answerBox.Focus();
+                    return;
+                }
 
-            if (word != correctWord)
+                if (word == correctWords[currentIndex])
+                {
+                    correctTxt.Text = word;
+                    isCorrect = true;
+
+                    if (currentIndex < correctWords.Length - 1)
+                    {
+                        GuessBtn.Text = "Next word";
+                        emptyBox.Text = "Correct!";
+                        emptyBox.ForeColor = Color.Black;
+                    }
+                    
+                    else
+                    {
+                        GuessBtn.Text = "Play Again";
+                        currentIndex = -1;
+                    }
+                }
+                else
+                {
+                    WrongGuesses.Items.Add(word);
+                    answerBox.Clear();
+                    emptyBox.Text = "Try again.";
+                    emptyBox.ForeColor = Color.Red;
+                }
+            }  
+            else 
             {
-                WrongGuesses.Items.Add(word);
-            }
-            else if (word == correctWord)
-            {
-                correctTxt.Text = word;
-            }
+                currentIndex++;
+                if(currentIndex < correctWords.Length)
+                {
+                    StringBuilder hintWords = new StringBuilder();
+                    string targerWord = correctWords[currentIndex];
+
+                    for (int i = 0; i < targerWord.Length; i++)
+                    {
+                        if (i == 0 || i == targerWord.Length - 1)
+                        {
+                            hintWords.Append(targerWord[i]);
+                        }
+                        else
+                        {
+                            hintWords.Append(" _ ");
+                        }
+                    }
+
+                    correctTxt.Text = hintWords.ToString().Trim().ToLower();
+                    GuessBtn.Text = "Guess";
+                    emptyBox.Text = "";
+                    answerBox.Clear();
+                    WrongGuesses.Items.Clear();
+                    isCorrect = false;
+                }
+            }            
         }
     }
 }
