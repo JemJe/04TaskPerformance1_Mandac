@@ -1,6 +1,6 @@
 ﻿namespace _04TaskPerformance1_Mandac
 {
-    partial class Form1
+    partial class frmGuessWord
     {
         /// <summary>
         /// Required designer variable.

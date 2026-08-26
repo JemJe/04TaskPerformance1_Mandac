@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace _04TaskPerformance1_Mandac
 {
-    public partial class Form1 : Form
+    public partial class frmGuessWord : Form
     {
         private string[] correctWords = { "word", "next", "computer", "hello" };
         private int currentIndex = 0;
         private bool isCorrect = false;
         ArrayList wrongGuessList = new ArrayList();
-        public Form1()
+        public frmGuessWord()
         {
             InitializeComponent();
         }
