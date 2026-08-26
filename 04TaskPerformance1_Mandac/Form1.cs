@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Collections;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _04TaskPerformance1_Mandac
@@ -15,6 +11,7 @@ namespace _04TaskPerformance1_Mandac
         private string[] correctWords = { "word", "next", "computer", "hello" };
         private int currentIndex = 0;
         private bool isCorrect = false;
+        ArrayList wrongGuessList = new ArrayList();
         public Form1()
         {
             InitializeComponent();
@@ -45,20 +42,32 @@ namespace _04TaskPerformance1_Mandac
                         GuessBtn.Text = "Next word";
                         emptyBox.Text = "Correct!";
                         emptyBox.ForeColor = Color.Black;
+                        MessageBox.Show("Correct guess!", "Correct Guess", MessageBoxButtons.OK);
                     }
                     
                     else
                     {
                         GuessBtn.Text = "Play Again";
                         currentIndex = -1;
+                        emptyBox.Text = "Correct!";
+                        emptyBox.ForeColor = Color.Black;
+                        MessageBox.Show("Correct guess!", "Correct Guess", MessageBoxButtons.OK);
                     }
                 }
                 else
                 {
-                    WrongGuesses.Items.Add(word);
+                    wrongGuessList.Add(word);
+
+                    WrongGuesses.Items.Clear();
+                    foreach (string guesses in wrongGuessList)
+                    {
+                        WrongGuesses.Items.Add(guesses);
+                    }
+
                     answerBox.Clear();
                     emptyBox.Text = "Try again.";
                     emptyBox.ForeColor = Color.Red;
+                    MessageBox.Show("Incorrect guess. \ntry again.", "Incorrect Guess", MessageBoxButtons.OK);
                 }
             }  
             else 
@@ -89,6 +98,11 @@ namespace _04TaskPerformance1_Mandac
                     isCorrect = false;
                 }
             }            
+        }
+
+        private void StartBtn(object sender, EventArgs e)
+        {
+            startPanel.Visible = false;
         }
     }
 }
